@@ -24,7 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\StockSlingBusiness\StockSlingBusiness.csproj" />
     <ProjectReference Include="..\StockSlingData\StockSlingData.csproj" />
-    <ProjectReference Include="..\StockSlingDTO\StockSlingDTO.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

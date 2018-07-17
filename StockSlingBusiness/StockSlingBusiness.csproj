@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="AdminBusiness.cs~RF3b27a3ca.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StockSlingData\StockSlingData.csproj" />
     <ProjectReference Include="..\StockSlingDTO\StockSlingDTO.csproj" />
   </ItemGroup>
