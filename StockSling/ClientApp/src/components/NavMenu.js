@@ -28,9 +28,14 @@ export class NavMenu extends Component {
                 <Glyphicon glyph='education' /> Meet Eva!
               </NavItem>
             </LinkContainer>
-            <LinkContainer to={'/fetchdata'}>
+            {/*<LinkContainer to={'/fetchdata'}>
               <NavItem>
                 <Glyphicon glyph='th-list' /> Fetch data
+              </NavItem>
+            </LinkContainer>*/}
+            <LinkContainer to={'/admin'}>
+              <NavItem>
+                <Glyphicon glyph='th-list' /> Admin
               </NavItem>
             </LinkContainer>
           </Nav>

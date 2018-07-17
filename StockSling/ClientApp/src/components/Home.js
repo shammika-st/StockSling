@@ -8,6 +8,7 @@ export class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            stock: '',
             currentLikeCount: 0,
             currentDislikeCount: 0
         };
@@ -24,6 +25,12 @@ export class Home extends Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({ currentDislikeCount: data });
+            });
+
+        fetch('api/Admin/stock')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ stock: data["stockName"] });
             });
     }
 
@@ -44,7 +51,7 @@ export class Home extends Component {
         <div>
             <div className="page-header">Today's StockSling</div>
             <button onClick={this.incrementDislikeCounter}>{this.state.currentDislikeCount} <Glyphicon glyph='thumbs-down' /></button>
-            <span className="stock-name"> AAPL </span>
+            <span className="stock-name"> {this.state.stock} </span>
             <button onClick={this.incrementLikeCounter}>{this.state.currentLikeCount} <Glyphicon glyph='thumbs-up' /></button>
         </div>
     );

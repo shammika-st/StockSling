@@ -34,9 +34,11 @@ namespace StockSling
 
             //Business Services
             services.AddScoped<ICounterBusiness, CounterBusiness>();
+            services.AddScoped<IAdminBusiness, AdminBusiness>();
 
             //Data Classes
             services.AddScoped<ICounterData, CounterData>();
+            services.AddScoped<IAdminData, AdminData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

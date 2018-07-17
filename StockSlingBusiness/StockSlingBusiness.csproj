@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StockSlingData\StockSlingData.csproj" />
+    <ProjectReference Include="..\StockSlingDTO\StockSlingDTO.csproj" />
   </ItemGroup>
 
 </Project>
