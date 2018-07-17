@@ -35,9 +35,9 @@ namespace StockSling.Controllers
 
         [HttpPost]
         [Route("{actionName}")]
-        public int UpdateCount(string actionName)
+        public async Task<int> UpdateCount(string actionName)
         {
-            return _counterBusiness.UpdateCount(actionName);
+            return await _counterBusiness.UpdateCount(actionName);
         }
     }
 }

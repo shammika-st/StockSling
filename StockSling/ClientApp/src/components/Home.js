@@ -38,11 +38,25 @@ export class Home extends Component {
         this.setState({
             currentDislikeCount: this.state.currentDislikeCount + 1
         });
+        fetch('api/Counter/dislike', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        });
     }
 
     incrementLikeCounter() {
         this.setState({
             currentLikeCount: this.state.currentLikeCount + 1
+        });
+        fetch('api/Counter/like', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
         });
     }
 

@@ -28,9 +28,9 @@ namespace StockSlingBusiness
             return counts.Results[0].Count;
         }
 
-        public int UpdateCount(string actionName)
+        public async Task<int> UpdateCount(string actionName)
         {
-            return _counterData.UpdateCount(actionName);
+            return await _counterData.UpdateCount(actionName);
         }
     }
 }

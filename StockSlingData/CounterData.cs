@@ -15,7 +15,7 @@ namespace StockSlingData
         {
             var table = GetLikesDataTableReference();
 
-            // Construct the query operation for all customer entities where PartitionKey="dislike".
+            // Construct the query operation for all customer entities where PartitionKey=actionName.
             TableQuery<LikesDataEntity> query = new TableQuery<LikesDataEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, actionName));
             TableContinuationToken token = null;
             TableQuerySegment<LikesDataEntity> segment = null;
@@ -32,9 +32,36 @@ namespace StockSlingData
             return segment;
         }
 
-        public int UpdateCount(string actionName)
+        public async Task<int> UpdateCount(string actionName)
         {
-            throw new NotImplementedException();
+            var table = GetLikesDataTableReference();
+
+            // Create a retrieve operation that takes a LikesDataEntity.
+            TableOperation retrieveOperation = TableOperation.Retrieve<LikesDataEntity>(actionName, actionName);
+
+            // Execute the operation.
+            TableResult retrievedResult = await table.Result.ExecuteAsync(retrieveOperation);
+
+            // Assign the result to a LikesDataEntity object.
+            LikesDataEntity updateEntity = (LikesDataEntity)retrievedResult.Result;
+
+            if (updateEntity != null)
+            {
+                // Change the phone number.
+                updateEntity.Count = updateEntity.Count + 1;
+
+                // Create the Replace TableOperation.
+                TableOperation updateOperation = TableOperation.Replace(updateEntity);
+
+                // Execute the operation.
+                await table.Result.ExecuteAsync(updateOperation);
+
+                return updateEntity.Count;
+            }
+            else
+            {
+                throw new Exception("Entity could not be retrieved.");
+            }
         }
 
         #region Private Methods

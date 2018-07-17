@@ -11,6 +11,6 @@ namespace StockSlingData.Interfaces
     {
         Task<TableQuerySegment<LikesDataEntity>> GetLikesCountByAction(string actionName);
 
-        int UpdateCount(string actionName);
+        Task<int> UpdateCount(string actionName);
     }
 }

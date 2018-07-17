@@ -11,6 +11,6 @@ namespace StockSlingBusiness.Interfaces
 
         Task<int> GetLikeCount();
 
-        int UpdateCount(string actionName);
+        Task<int> UpdateCount(string actionName);
     }
 }
