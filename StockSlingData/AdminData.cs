@@ -7,6 +7,7 @@ using StockSlingData.Entities;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Auth;
 using StockSlingDTO;
+using StockSlingData.Helper;
 
 namespace StockSlingData
 {
@@ -14,7 +15,7 @@ namespace StockSlingData
     {
         public async Task<TableQuerySegment<StocksEntity>> GetCurrentStock()
         {
-            var table = GetStockTableReference();
+            var table = DBHelpers.GetTableReference("Stock");
 
             // Construct the query operation for all customer entities where PartitionKey="dislike".
             TableQuery<StocksEntity> query = new TableQuery<StocksEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, "stock"));
@@ -35,7 +36,7 @@ namespace StockSlingData
 
         public void SetCurrentStock(NewStockDTO newStockDTO)
         {
-            var table = GetStockTableReference();
+            var table = DBHelpers.GetTableReference("Stock");
 
             // Create a new stock entity.
             StocksEntity stock = new StocksEntity(newStockDTO.StockName);
@@ -49,46 +50,7 @@ namespace StockSlingData
         }
 
         #region Private Methods
-        private static async Task<CloudTable> GetLikesDataTableReference()
-        {
-            CloudTableClient tableClient = GetTableClientReference();
-
-            // Retrieve a reference to the table.
-            CloudTable table = tableClient.GetTableReference("LikesData");
-
-            // Create the table if it doesn't exist.
-            await table.CreateIfNotExistsAsync();
-
-            return table;
-        }
-
-        private static async Task<CloudTable> GetStockTableReference()
-        {
-            CloudTableClient tableClient = GetTableClientReference();
-
-            // Retrieve a reference to the table.
-            CloudTable table = tableClient.GetTableReference("Stock");
-
-            // Create the table if it doesn't exist.
-            await table.CreateIfNotExistsAsync();
-
-            return table;
-        }
-
-        private static CloudTableClient GetTableClientReference()
-        {
-            var storageCredentials = new StorageCredentials("stockslingtest", "oVmIDBsxTCWZHjUOOARcqTvTchQdUQUu72BrE4F1ppv39V249grnnu0HlirRdC1uAVdBobLxdFJbntFfn1yfUA==");
-
-            // Parse the connection string and return a reference to the storage account.
-            //CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
-            //    CloudConfigurationManager.GetSetting("SSAzureTableDbContext"));
-            CloudStorageAccount storageAccount = new CloudStorageAccount(storageCredentials, true);
-
-            // Create the table client.
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-
-            return tableClient;
-        }
+        
         #endregion
     }
 }

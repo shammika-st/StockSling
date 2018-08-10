@@ -6,6 +6,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using StockSlingData.Entities;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Auth;
+using StockSlingData.Helper;
 
 namespace StockSlingData
 {
@@ -13,7 +14,7 @@ namespace StockSlingData
     {
         public async Task<TableQuerySegment<LikesDataEntity>> GetLikesCountByAction(string actionName)
         {
-            var table = GetLikesDataTableReference();
+            var table = DBHelpers.GetTableReference("LikesData");
 
             // Construct the query operation for all customer entities where PartitionKey=actionName.
             TableQuery<LikesDataEntity> query = new TableQuery<LikesDataEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, actionName));
@@ -34,7 +35,7 @@ namespace StockSlingData
 
         public async Task<int> UpdateCount(string actionName)
         {
-            var table = GetLikesDataTableReference();
+            var table = DBHelpers.GetTableReference("LikesData");
 
             // Create a retrieve operation that takes a LikesDataEntity.
             TableOperation retrieveOperation = TableOperation.Retrieve<LikesDataEntity>(actionName, actionName);
@@ -63,28 +64,5 @@ namespace StockSlingData
                 throw new Exception("Entity could not be retrieved.");
             }
         }
-
-        #region Private Methods
-        private static async Task<CloudTable> GetLikesDataTableReference()
-        {
-            var storageCredentials = new StorageCredentials("stockslingtest", "oVmIDBsxTCWZHjUOOARcqTvTchQdUQUu72BrE4F1ppv39V249grnnu0HlirRdC1uAVdBobLxdFJbntFfn1yfUA==");
-
-            // Parse the connection string and return a reference to the storage account.
-            //CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
-            //    CloudConfigurationManager.GetSetting("SSAzureTableDbContext"));
-            CloudStorageAccount storageAccount = new CloudStorageAccount(storageCredentials, true);
-
-            // Create the table client.
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-
-            // Retrieve a reference to the table.
-            CloudTable table = tableClient.GetTableReference("LikesData");
-
-            // Create the table if it doesn't exist.
-            await table.CreateIfNotExistsAsync();
-
-            return table;
-        }
-        #endregion
     }
 }
